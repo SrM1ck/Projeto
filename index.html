@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Acesso ao portal AgendaRemota.">
+  <title>Login | AgendaRemota</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#login">Pular para o formulário de acesso</a>
+  <main class="page">
+    <section class="login" aria-labelledby="page-title">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">A</span><span>AgendaRemota</span></div>
+      <h1 id="page-title">Entrar</h1>
+      <p class="subtitle">Acesse sua conta para gerenciar seus agendamentos.</p>
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" autocomplete="username" placeholder="seuemail@exemplo.com" required>
+          <small class="error" id="email-error"></small>
+        </div>
+        <div class="field">
+          <label for="password">Senha</label>
+          <div class="password-wrap">
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Digite sua senha" required>
+            <button class="show-password" type="button" id="toggle-password" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
+          </div>
+          <small class="error" id="password-error"></small>
+        </div>
+        <div class="options">
+          <label class="remember"><input type="checkbox" id="remember"> <span>Manter conectado</span></label>
+          <button class="text-button" type="button" id="forgot">Esqueci minha senha</button>
+        </div>
+        <button class="submit" type="submit">Entrar</button>
+        <p class="status" id="login-status" role="status" aria-live="polite"></p>
+      </form>
+      <section class="mfa hidden" id="mfa-section" aria-labelledby="mfa-title">
+        <h2 id="mfa-title">Verificação adicional</h2>
+        <p>Para esta demonstração, confirme o código de seis dígitos abaixo.</p>
+        <p class="demo-code">Código de demonstração: <strong>123456</strong></p>
+        <label for="mfa-code">Código de verificação</label>
+        <input id="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
+        <small class="error" id="mfa-error"></small>
+        <button class="submit" id="verify-mfa" type="button">Confirmar código</button>
+      </section>
+      <section class="dashboard hidden" id="dashboard" aria-live="polite">
+        <h2>Acesso realizado!</h2>
+        <p id="welcome"></p>
+        <p>Esta é a área inicial do usuário. Na próxima etapa, construiremos aqui a área de agendamentos.</p>
+        <button class="submit" id="logout" type="button">Sair</button>
+      </section>
+      <p class="signup">Ainda não tem uma conta? <a href="#" id="register">Criar conta</a></p>
+    </section>
+  </main>
+  <div class="accessibility-tools" aria-label="Opções de acessibilidade">
+    <button type="button" id="font-decrease" aria-label="Diminuir tamanho da fonte">A−</button>
+    <button type="button" id="font-increase" aria-label="Aumentar tamanho da fonte">A+</button>
+    <button type="button" id="contrast-toggle" aria-pressed="false">Alto contraste</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
