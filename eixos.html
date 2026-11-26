@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Como o protótipo AgendaRemota atende aos 4 eixos técnicos do projeto.">
+  <title>Os 4 eixos técnicos | AgendaRemota</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+
+  <header class="topo">
+    <div class="topo-in">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">A</span><span>AgendaRemota</span></div>
+      <nav class="menu" aria-label="Navegação principal">
+        <a href="index.html">← Voltar ao portal</a>
+        <a href="#eixo1">1. Usabilidade</a>
+        <a href="#eixo2">2. Acessibilidade</a>
+        <a href="#eixo3">3. Desempenho</a>
+        <a href="#eixo4">4. Redes e segurança</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo" class="painel">
+    <h1>Os 4 eixos técnicos no AgendaRemota</h1>
+    <p class="lead">Cada eixo mostra a analogia do livro, o que o protótipo faz e onde você pode ver isso funcionando.</p>
+
+    <section id="eixo1" aria-labelledby="t1" class="cartao">
+      <h2 id="t1">Eixo 1: Usabilidade e UI (Analogia da Casa)</h2>
+      <div class="tabela-wrap"><table>
+        <caption>Partes da casa e o que elas são no portal</caption>
+        <thead><tr><th scope="col">Parte da casa</th><th scope="col">No portal</th><th scope="col">Onde ver</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Fundação</th><td>Contas e consultas guardadas no navegador; HTML organizado (cabeçalho, menu, conteúdo, rodapé).</td><td>Cadastro e Minhas consultas</td></tr>
+          <tr><th scope="row">Cômodos</th><td>Login, Cadastro, Painel, Agendar, Minhas consultas e Atendimento remoto, cada um com uma função.</td><td>Menu do painel</td></tr>
+          <tr><th scope="row">Portas e corredores</th><td>Menu igual em todas as telas, botão "Voltar" nas etapas, nenhum beco sem saída.</td><td>Menu e botões "Voltar"</td></tr>
+          <tr><th scope="row">Acabamento</th><td>Poucas cores, botões grandes, mensagens claras de erro e de sucesso.</td><td>Confirmação do agendamento</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><strong>Consistência:</strong> mesmos botões, cores e menu em todas as telas.</li>
+        <li><strong>Feedback:</strong> cada ação tem resposta (indicador "carregando", mensagem de erro no campo, caixa de confirmação).</li>
+        <li><strong>Facilidade de uso e baixa carga cognitiva:</strong> agendar tem só 3 campos e uma tela por tarefa.</li>
+        <li><strong>Responsividade:</strong> o layout se adapta ao celular.</li>
+      </ul>
+    </section>
+
+    <section id="eixo2" aria-labelledby="t2" class="cartao">
+      <h2 id="t2">Eixo 2: Acessibilidade digital (Analogia da Biblioteca Pública)</h2>
+      <div class="tabela-wrap"><table>
+        <caption>Recursos de acessibilidade (WCAG 2.1 / eMAG)</caption>
+        <thead><tr><th scope="col">Analogia</th><th scope="col">Recurso no portal</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Rampa</th><td>Todo o portal funciona só com teclado (Tab, Shift+Tab, Enter, Espaço); link "Pular para o conteúdo".</td></tr>
+          <tr><th scope="row">Sinalização</th><td>Foco visível, títulos em ordem, menu com a página atual marcada, idioma da página definido.</td></tr>
+          <tr><th scope="row">Braille</th><td>Todo campo tem rótulo; erros ligados ao campo; mensagens anunciadas para leitor de tela (aria-live).</td></tr>
+          <tr><th scope="row">Acesso universal</th><td>Botões A− e A+ (tamanho do texto), modo de alto contraste, contraste mínimo de 4,5:1 e alvos de toque de 44 px. As escolhas ficam salvas.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Para o relatório: rode o Lighthouse e o WAVE e anexe os resultados.</p>
+    </section>
+
+    <section id="eixo3" aria-labelledby="t3" class="cartao">
+      <h2 id="t3">Eixo 3: Desempenho e carga (Analogia do Restaurante Fast Food)</h2>
+      <ul>
+        <li><strong>Carregamento leve:</strong> páginas simples, sem bibliotecas externas e sem imagens pesadas (o balcão atende rápido).</li>
+        <li><strong>Prevenção de cliques repetidos:</strong> ao clicar em Entrar, Criar conta, Agendar ou Cancelar, o botão mostra "carregando…" e ignora novos cliques. Teste clicando várias vezes em "Agendar consulta".</li>
+        <li><strong>Tempo de resposta medido:</strong> o rodapé mostra o tempo da última operação (simulada).</li>
+        <li><strong>Testes de carga e de estresse:</strong> feitos fora do protótipo, com uma ferramenta como k6, JMeter ou Locust, e descritos no relatório: carga (uso esperado, ex.: 50 usuários simultâneos) e estresse (aumentar até o sistema saturar, a "fila" crescer).</li>
+      </ul>
+    </section>
+
+    <section id="eixo4" aria-labelledby="t4" class="cartao">
+      <h2 id="t4">Eixo 4: Redes e segurança (Cidade Moderna e Fazenda/Irrigação)</h2>
+      <div class="tabela-wrap"><table>
+        <caption>Decisões de arquitetura e o que o protótipo demonstra</caption>
+        <thead><tr><th scope="col">Item</th><th scope="col">Decisão (solução real)</th><th scope="col">No protótipo</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Modelo de nuvem</th><td>SaaS para o cliente, sobre PaaS/IaaS</td><td>Portal acessado pelo navegador, sem instalação</td></tr>
+          <tr><th scope="row">Armazenamento</th><td>SAN para o banco de consultas; NAS para documentos</td><td>Dados guardados no navegador (simulação)</td></tr>
+          <tr><th scope="row">Rede</th><td>VPN para a equipe interna; 5G/rede móvel para o cliente</td><td>Descrito no diagrama do relatório</td></tr>
+          <tr><th scope="row">Criptografia</th><td>TLS em todo o tráfego; RSA na troca de chaves</td><td>Selo "Conexão protegida (TLS)" na sala remota</td></tr>
+          <tr><th scope="row">Firewall</th><td>Na borda da rede, liberando só as portas necessárias</td><td>Descrito no esquema de segurança</td></tr>
+          <tr><th scope="row">Autenticação (MFA)</th><td>Senha + código de verificação</td><td>Login com código de 6 dígitos; 3 erros voltam ao início</td></tr>
+          <tr><th scope="row">Senha protegida</th><td>Hash no servidor (bcrypt/Argon2)</td><td>Guarda só o hash SHA-256, nunca a senha</td></tr>
+          <tr><th scope="row">Autorização</th><td>Cada usuário acessa só os próprios dados</td><td>Painel exige login e mostra só as suas consultas</td></tr>
+          <tr><th scope="row">QoS</th><td>Voz e vídeo com prioridade sobre backups e atualizações</td><td>Botão "Simular rede congestionada" na sala remota</td></tr>
+          <tr><th scope="row">Monitoramento e manutenção</th><td>Monitoramento contínuo, patches e backups periódicos (analogia da irrigação)</td><td>Descrito no relatório</td></tr>
+        </tbody>
+      </table></div>
+      <p>Tríade de segurança: <strong>confidencialidade</strong> (MFA, senha protegida, TLS), <strong>integridade</strong> (validação dos dados) e <strong>disponibilidade</strong> (firewall, QoS, monitoramento, backup).</p>
+    </section>
+
+    <p><a class="botao" href="index.html">Voltar ao portal</a></p>
+  </main>
+
+  <footer class="rodape">
+    <p>Protótipo acadêmico · Desenvolvimento de Soluções Remotas · UNOPAR Niterói</p>
+  </footer>
+
+  <div class="accessibility-tools" role="group" aria-label="Opções de acessibilidade">
+    <button type="button" id="font-decrease" aria-label="Diminuir tamanho da fonte">A−</button>
+    <button type="button" id="font-increase" aria-label="Aumentar tamanho da fonte">A+</button>
+    <button type="button" id="contrast-toggle" aria-pressed="false">Alto contraste</button>
+  </div>
+
+  <script src="comum.js"></script>
+</body>
+</html>

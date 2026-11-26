@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel do usuário do AgendaRemota: agende consultas, veja seus atendimentos e entre na sala remota.">
+  <title>Painel | AgendaRemota</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+
+  <!-- Cabeçalho e menu iguais em todas as telas (consistência) -->
+  <header class="topo">
+    <div class="topo-in">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">A</span><span>AgendaRemota</span></div>
+      <nav class="menu" aria-label="Navegação principal">
+        <a href="#inicio">Painel</a>
+        <a href="#agendar">Agendar consulta</a>
+        <a href="#consultas">Minhas consultas</a>
+        <a href="#atendimento">Atendimento remoto</a>
+      </nav>
+      <div class="usuario">
+        <span id="usuario-nome"></span>
+        <button type="button" class="botao sec pequeno" id="btn-sair">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo" class="painel">
+
+    <!-- ============ PAINEL DO USUÁRIO ============ -->
+    <section id="tela-inicio" data-tela hidden>
+      <h1 id="ola">Olá!</h1>
+      <p class="lead">Aqui você centraliza tudo: agendar, acompanhar e entrar no atendimento.</p>
+      <div class="cartoes">
+        <div class="cartao">
+          <h2>Próxima consulta</h2>
+          <p class="numero" id="proxima-hora">—</p>
+          <p id="proxima-detalhe">Você não tem consultas marcadas.</p>
+        </div>
+        <div class="cartao">
+          <h2>Consultas agendadas</h2>
+          <p class="numero" id="total-agendadas">0</p>
+          <div class="acoes">
+            <a class="botao" href="#agendar">Agendar consulta</a>
+            <a class="botao sec" href="#consultas">Ver minhas consultas</a>
+          </div>
+        </div>
+        <div class="cartao">
+          <h2>Atendimento remoto</h2>
+          <p>Entre na sala de vídeo e chat (demonstração).</p>
+          <div class="acoes"><a class="botao sec" href="#atendimento">Abrir sala</a></div>
+        </div>
+        <div class="cartao">
+          <h2>Seu cadastro</h2>
+          <dl class="dados">
+            <dt>Nome</dt><dd id="cad-nome"></dd>
+            <dt>E-mail</dt><dd id="cad-email"></dd>
+            <dt>Telefone</dt><dd id="cad-telefone"></dd>
+            <dt>Conta criada em</dt><dd id="cad-data"></dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ AGENDAR CONSULTA ============ -->
+    <section id="tela-agendar" data-tela hidden>
+      <h1>Agendar consulta</h1>
+      <p class="lead">Escolha o tipo de atendimento, a data e o horário.</p>
+      <form id="form-agendar" class="formulario" novalidate>
+        <div class="field">
+          <label for="tipo">Tipo de atendimento</label>
+          <select id="tipo" required aria-describedby="tipo-erro">
+            <option value="">Selecione…</option>
+            <option value="clinico">Atendimento clínico (teleconsulta)</option>
+            <option value="suporte">Suporte técnico</option>
+            <option value="rh">Atendimento de RH</option>
+          </select>
+          <small class="error" id="tipo-erro"></small>
+        </div>
+        <div class="field">
+          <label for="data">Data</label>
+          <input id="data" type="date" required aria-describedby="data-ajuda data-erro">
+          <small class="ajuda" id="data-ajuda">Atendemos de segunda a sexta, nos próximos 30 dias.</small>
+          <small class="error" id="data-erro"></small>
+        </div>
+        <div class="field">
+          <label for="hora">Horário</label>
+          <select id="hora" required disabled aria-describedby="hora-info hora-erro">
+            <option value="">Escolha uma data primeiro</option>
+          </select>
+          <small class="ajuda" id="hora-info" role="status" aria-live="polite"></small>
+          <small class="error" id="hora-erro"></small>
+        </div>
+        <button class="submit" type="submit" id="btn-agendar">Agendar consulta</button>
+      </form>
+
+      <!-- Confirmação: mostra que a consulta foi agendada -->
+      <div id="confirmacao" class="confirmacao" tabindex="-1" hidden>
+        <h2>✔ Consulta agendada com sucesso!</h2>
+        <dl class="dados">
+          <dt>Protocolo</dt><dd id="conf-id"></dd>
+          <dt>Atendimento</dt><dd id="conf-tipo"></dd>
+          <dt>Data</dt><dd id="conf-data"></dd>
+          <dt>Horário</dt><dd id="conf-hora"></dd>
+          <dt>Situação</dt><dd><span class="selo agendado">Agendado</span></dd>
+        </dl>
+        <p class="ajuda" id="conf-email"></p>
+        <div class="acoes">
+          <a class="botao" href="#consultas">Ver minhas consultas</a>
+          <button type="button" class="botao sec" id="agendar-outra">Agendar outra</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MINHAS CONSULTAS ============ -->
+    <section id="tela-consultas" data-tela hidden>
+      <h1>Minhas consultas</h1>
+      <p class="lead">Veja seus agendamentos, entre na sala ou cancele.</p>
+      <div id="aviso-consultas" class="aviso" tabindex="-1" role="status" hidden></div>
+      <div id="lista-consultas"></div>
+      <div class="acoes"><a class="botao" href="#agendar">Agendar nova consulta</a></div>
+    </section>
+
+    <!-- ============ ATENDIMENTO REMOTO (DEMONSTRAÇÃO) ============ -->
+    <section id="tela-atendimento" data-tela hidden>
+      <h1>Atendimento remoto</h1>
+      <p class="lead" id="sala-info"></p>
+      <p class="ajuda">Área demonstrativa: nenhuma câmera ou microfone é usado e as respostas do atendente são simuladas.</p>
+
+      <div class="sala">
+        <div class="video" role="img" aria-label="Vídeo do atendente João Lima (simulado)">
+          <div><div class="avatar" aria-hidden="true">J</div>Atendente João Lima</div>
+          <span class="selo-conexao">🔒 Conexão protegida (TLS) · simulada</span>
+        </div>
+        <div class="video eu" role="img" aria-label="Sua imagem (simulada)">
+          <div><div class="avatar" aria-hidden="true" id="avatar-eu">V</div>Você</div>
+        </div>
+      </div>
+
+      <div class="controles" role="group" aria-label="Controles da chamada">
+        <button type="button" class="botao sec" id="btn-mic" aria-pressed="false">Microfone: ligado</button>
+        <button type="button" class="botao sec" id="btn-cam" aria-pressed="false">Câmera: ligada</button>
+        <button type="button" class="botao sec" id="btn-rede" aria-pressed="false">Simular rede congestionada</button>
+        <button type="button" class="botao perigo" id="btn-encerrar">Encerrar chamada</button>
+      </div>
+      <p class="qualidade" id="qualidade" role="status" aria-live="polite"></p>
+
+      <div class="chat cartao">
+        <h2>Chat</h2>
+        <div id="mensagens" role="log" aria-live="polite" aria-label="Mensagens do chat"></div>
+        <form id="form-chat" class="chat-form" novalidate>
+          <label for="msg" class="sr-only">Digite sua mensagem</label>
+          <input id="msg" type="text" autocomplete="off" placeholder="Digite sua mensagem">
+          <button type="submit" class="botao" id="btn-enviar">Enviar</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="rodape">
+    <p><a href="eixos.html">Como este protótipo atende aos 4 eixos técnicos</a></p>
+    <p id="tempo-resposta">Tempo da última operação: —</p>
+    <p>Protótipo acadêmico: os dados ficam apenas neste navegador. Atendimento, e-mails e conexão são simulados.</p>
+  </footer>
+
+  <div id="anuncio" class="sr-only" role="status" aria-live="polite"></div>
+
+  <dialog id="dlg" aria-labelledby="dlg-titulo">
+    <h2 id="dlg-titulo">Cancelar consulta?</h2>
+    <p id="dlg-texto"></p>
+    <div class="acoes">
+      <button type="button" class="botao perigo" id="dlg-sim">Sim, cancelar</button>
+      <button type="button" class="botao sec" id="dlg-nao">Não, manter</button>
+    </div>
+  </dialog>
+
+  <div class="accessibility-tools" role="group" aria-label="Opções de acessibilidade">
+    <button type="button" id="font-decrease" aria-label="Diminuir tamanho da fonte">A−</button>
+    <button type="button" id="font-increase" aria-label="Aumentar tamanho da fonte">A+</button>
+    <button type="button" id="contrast-toggle" aria-pressed="false">Alto contraste</button>
+  </div>
+
+  <script src="comum.js"></script>
+  <script src="painel.js"></script>
+</body>
+</html>

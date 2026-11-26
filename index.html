@@ -8,22 +8,24 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <a class="skip-link" href="#login">Pular para o formulário de acesso</a>
+  <a class="skip-link" href="#login-form">Pular para o formulário de acesso</a>
   <main class="page">
     <section class="login" aria-labelledby="page-title">
       <div class="brand"><span class="brand-mark" aria-hidden="true">A</span><span>AgendaRemota</span></div>
       <h1 id="page-title">Entrar</h1>
       <p class="subtitle">Acesse sua conta para gerenciar seus agendamentos.</p>
+
+      <!-- 1) LOGIN -->
       <form id="login-form" novalidate>
         <div class="field">
           <label for="email">E-mail</label>
-          <input id="email" name="email" type="email" autocomplete="username" placeholder="seuemail@exemplo.com" required>
+          <input id="email" name="email" type="email" autocomplete="username" placeholder="seuemail@exemplo.com" required aria-describedby="email-error">
           <small class="error" id="email-error"></small>
         </div>
         <div class="field">
           <label for="password">Senha</label>
           <div class="password-wrap">
-            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Digite sua senha" required>
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Digite sua senha" required aria-describedby="password-error">
             <button class="show-password" type="button" id="toggle-password" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
           </div>
           <small class="error" id="password-error"></small>
@@ -32,32 +34,73 @@
           <label class="remember"><input type="checkbox" id="remember"> <span>Manter conectado</span></label>
           <button class="text-button" type="button" id="forgot">Esqueci minha senha</button>
         </div>
-        <button class="submit" type="submit">Entrar</button>
+        <button class="submit" type="submit" id="btn-entrar">Entrar</button>
         <p class="status" id="login-status" role="status" aria-live="polite"></p>
       </form>
+
+      <!-- 2) VERIFICAÇÃO EM DUAS ETAPAS (MFA) -->
       <section class="mfa hidden" id="mfa-section" aria-labelledby="mfa-title">
         <h2 id="mfa-title">Verificação adicional</h2>
         <p>Para esta demonstração, confirme o código de seis dígitos abaixo.</p>
         <p class="demo-code">Código de demonstração: <strong>123456</strong></p>
         <label for="mfa-code">Código de verificação</label>
-        <input id="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
-        <small class="error" id="mfa-error"></small>
+        <input id="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-describedby="mfa-error">
+        <small class="error" id="mfa-error" role="alert"></small>
         <button class="submit" id="verify-mfa" type="button">Confirmar código</button>
+        <button class="text-button" id="mfa-back" type="button">Voltar</button>
       </section>
-      <section class="dashboard hidden" id="dashboard" aria-live="polite">
-        <h2>Acesso realizado!</h2>
-        <p id="welcome"></p>
-        <p>Esta é a área inicial do usuário. Na próxima etapa, construiremos aqui a área de agendamentos.</p>
-        <button class="submit" id="logout" type="button">Sair</button>
+
+      <!-- 3) CADASTRO (criar conta) -->
+      <section class="cadastro hidden" id="cadastro-section" aria-label="Criar conta">
+        <form id="cadastro-form" novalidate>
+          <div class="field">
+            <label for="reg-nome">Nome completo</label>
+            <input id="reg-nome" type="text" autocomplete="name" placeholder="Maria Souza" required aria-describedby="reg-nome-error">
+            <small class="error" id="reg-nome-error"></small>
+          </div>
+          <div class="field">
+            <label for="reg-email">E-mail</label>
+            <input id="reg-email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com" required aria-describedby="reg-email-error">
+            <small class="error" id="reg-email-error"></small>
+          </div>
+          <div class="field">
+            <label for="reg-telefone">Telefone (opcional)</label>
+            <input id="reg-telefone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="21 99999-9999" aria-describedby="reg-telefone-error">
+            <small class="error" id="reg-telefone-error"></small>
+          </div>
+          <div class="field">
+            <label for="reg-senha">Senha</label>
+            <input id="reg-senha" type="password" autocomplete="new-password" placeholder="Mínimo de 6 caracteres" required aria-describedby="reg-senha-error">
+            <small class="error" id="reg-senha-error"></small>
+          </div>
+          <div class="field">
+            <label for="reg-confirma">Confirmar senha</label>
+            <input id="reg-confirma" type="password" autocomplete="new-password" placeholder="Repita a senha" required aria-describedby="reg-confirma-error">
+            <small class="error" id="reg-confirma-error"></small>
+          </div>
+          <div class="field">
+            <label class="consent"><input type="checkbox" id="reg-aceite" aria-describedby="reg-aceite-error"> <span>Concordo em usar meus dados apenas para o atendimento no AgendaRemota.</span></label>
+            <small class="error" id="reg-aceite-error"></small>
+          </div>
+          <button class="submit" type="submit" id="btn-cadastrar">Criar conta</button>
+          <p class="status" id="cadastro-status" role="status" aria-live="polite"></p>
+        </form>
+        <button class="text-button" id="voltar-login" type="button">Já tenho conta, entrar</button>
       </section>
-      <p class="signup">Ainda não tem uma conta? <a href="#" id="register">Criar conta</a></p>
+
+      <p class="signup" id="signup">Ainda não tem uma conta? <a href="#" id="register">Criar conta</a></p>
     </section>
   </main>
-  <div class="accessibility-tools" aria-label="Opções de acessibilidade">
+
+  <div id="anuncio" class="sr-only" role="status" aria-live="polite"></div>
+
+  <div class="accessibility-tools" role="group" aria-label="Opções de acessibilidade">
     <button type="button" id="font-decrease" aria-label="Diminuir tamanho da fonte">A−</button>
     <button type="button" id="font-increase" aria-label="Aumentar tamanho da fonte">A+</button>
     <button type="button" id="contrast-toggle" aria-pressed="false">Alto contraste</button>
   </div>
+
+  <script src="comum.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
